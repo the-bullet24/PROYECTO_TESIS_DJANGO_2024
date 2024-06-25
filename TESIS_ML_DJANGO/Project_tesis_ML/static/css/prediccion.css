@@ -1,0 +1,54 @@
+body {
+    background-color: #121212; /* Default dark background for the body */
+    color: #FFFFFF; /* Default dark text color */
+  }
+  div.notification.is-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+    border-radius: 10px;
+    background-color: #2C2C2C; /* Background color for the form */
+    color: #FFFFFF; /* Text color for the form */
+  }
+  h1.title.is-5 {
+    color: #FFFFFF; /* Title color */
+  }
+  p {
+    color: #FFFFFF; /* Paragraph text color */
+  }
+  input.input {
+    background-color: #FFFFFF; /* Input field background */
+    color: #000000; /* Input field text color */
+  }
+  button.button.is-primary.is-rounded {
+    background-color: #00d1b2; /* Button background color */
+    color: #FFFFFF; /* Button text color */
+  }
+  /* Light mode styles */
+  body.light-mode {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  div.notification.is-text.light-mode {
+    background-color: #F0F0F0;
+    color: #000000;
+  }
+  h1.title.is-5.light-mode {
+    color: #000000;
+  }
+  p.light-mode {
+    color: #000000;
+  }
+  input.input.light-mode {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  button.button.is-primary.is-rounded.light-mode {
+    background-color: #00d1b2;
+    color: #FFFFFF;
+  }
