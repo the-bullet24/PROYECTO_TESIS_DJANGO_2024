@@ -5,38 +5,39 @@ import pandas as pd
 import json
 import os
 from sklearn.preprocessing import MinMaxScaler
+from django.http import JsonResponse
+
 
 # our home page view
 
 def inicio(request):
     return render(request, 'inicio.html')
 
-# def prediccion_data(request):
-#     return render(request, 'prediccion_data.html')
 
-# # custom method for generating predictions
+
+ #custom method for generating predictions
 # def getPredictions(anio, mes, total_avena):
-#     # Obtener la ruta del directorio actual del archivo
-#     base_dir = os.path.dirname(os.path.abspath(__file__))
+#      # Obtener la ruta del directorio actual del archivo
+#      base_dir = os.path.dirname(os.path.abspath(__file__))
     
-#     # Construir la ruta completa a los archivos .sav
-#     model_path = os.path.join(base_dir, "avena_sales_prediction_model.sav")
-#     scaler_path = os.path.join(base_dir, "avena_sales_scaler.sav")
+# #     # Construir la ruta completa a los archivos .sav
+#      model_path = os.path.join(base_dir, "avena_sales_prediction_model.sav")
+#      scaler_path = os.path.join(base_dir, "avena_sales_scaler.sav")
     
-#     # Cargar el modelo y el escalador
-#     model = pickle.load(open(model_path, "rb"))
-#     scaler = pickle.load(open(scaler_path, "rb"))
+# #     # Cargar el modelo y el escalador
+#      model = pickle.load(open(model_path, "rb"))
+#      scaler = pickle.load(open(scaler_path, "rb"))
     
-#     input_data = pd.DataFrame([[anio, mes, total_avena]], columns=['ANIO', 'MESES_NUM', 'TOTAL_AVENA'])
-#     input_data_scaled = scaler.transform(input_data)
+#      input_data = pd.DataFrame([[anio, mes, total_avena]], columns=['ANIO', 'MESES_NUM', 'TOTAL_AVENA'])
+#      input_data_scaled = scaler.transform(input_data)
     
-#     prediction = model.predict(input_data_scaled)
+#      prediction = model.predict(input_data_scaled)
     
-#     return {
-#         "predicted_sales": float(prediction[0])
-#     }
+#      return {
+#          "predicted_sales": float(prediction[0])
+#      }
 
-def getPredictions(anio):
+def getPredictions(anio, avena_por_mes):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(base_dir, "avena_sales_prediction_model.sav")
     scaler_path = os.path.join(base_dir, "avena_sales_scaler.sav")
@@ -45,38 +46,41 @@ def getPredictions(anio):
     scaler = pickle.load(open(scaler_path, "rb"))
     
     predictions = []
-    for mes in range(1, 13):
-        # Aquí deberías tener una forma de obtener el total_avena para cada mes
-        # Por ahora, usaré un valor fijo como ejemplo
-        total_avena = 20000  # Reemplaza esto con la lógica adecuada
+    for mes, total_avena in enumerate(avena_por_mes, start=1):
+        mes_sin = np.sin(2 * np.pi * mes / 12)
+        mes_cos = np.cos(2 * np.pi * mes / 12)
         
-        input_data = pd.DataFrame([[anio, mes, total_avena]], columns=['ANIO', 'MESES_NUM', 'TOTAL_AVENA'])
+        input_data = pd.DataFrame([[anio, mes_sin, mes_cos, total_avena]], 
+                                  columns=['ANIO', 'MES_SIN', 'MES_COS', 'TOTAL_AVENA'])
         input_data_scaled = scaler.transform(input_data)
-        prediction = model.predict(input_data_scaled)
-        predictions.append(float(prediction[0]))
+        prediction = model.predict(input_data_scaled)[0]
+        predictions.append(prediction)
     
     return predictions
 
+
 def prediccion_data(request):
-    if request.method == 'GET':
-        anio = request.GET.get('anio')
-        if anio:
-            predictions = getPredictions(int(anio))
-            return render(request, 'result.html', {'predictions': predictions, 'anio': anio})
-    return render(request, 'prediccion_data.html')
+    months = range(1, 13)
+    return render(request, 'prediccion_data.html', {'months': months})
 
-# our result page view
 def result(request):
-    anio = int(request.GET['anio'])
-    mes = int(request.GET['mes'])
-    total_avena = int(request.GET['total_avena'])
-    
-    result = getPredictions(anio, mes, total_avena)
-    
-    return render(request, 'result.html', {'result': result})
+    if request.method == 'POST':
+        anio = int(request.POST['anio'])
+        avena_por_mes = [int(request.POST[f'avena_mes_{i}']) for i in range(1, 13)]
+        
+        predictions = getPredictions(anio, avena_por_mes)
+        
+        result = {
+            'anio': anio,
+            'avena_por_mes': avena_por_mes,
+            'predictions': predictions,
+        }
+        
+        return JsonResponse(result)
+    else:
+        return render(request, 'prediccion_data.html')
 
-def metas(request):
-    return render(request, 'metas.html')
+
 
 def ventas_productos_2019(request):
     data = [

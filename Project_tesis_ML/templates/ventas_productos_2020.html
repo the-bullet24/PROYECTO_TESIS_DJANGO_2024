@@ -1,29 +1,7 @@
 {% extends "cabecera.html" %}
-
+{% load static %}
 {% block main %}
-<style>
-  .grid-container {
-    display: grid;
-    grid-template-rows: 370px 380px;
-    grid-template-columns: 633px 555px;
-    grid-gap: 5px;
-    margin: auto;
-  }
-  .grid-item1 {
-      
-    text-align: center;
-    border: black 2px solid;
-   
-    grid-template-rows: 100px;
-    
-    grid-row-end: 3;
-  }
-  .grid-item2 {
-      padding: 10px 27px 10px 25px;
-      text-align: center;
-      border: black 2px solid;
-  }
-  </style>
+
     <!--Secciones-->
   <div class="column_graficos"style="margin-top: 2px;">
     <!-- Primer gráfico -->
@@ -52,7 +30,7 @@
             <li><a href="{% url 'ventas_productos_2019' %}"  >2019</a></li>
             <li><a href="{% url 'ventas_productos_2020' %}">2020</a></li>
             <li><a href="{% url 'ventas_productos_2021' %}">2021</a></li>
-            <li><a>2022</a></li>
+            <li><a href="{% url 'ventas_productos_2022' %}">2022</a></li>
           </ul>
         </li>      
       </ul>
@@ -98,16 +76,22 @@
 
   <!--Grafico 2-->
 
+  
   <div class="grid-item2">
-    <h1>Predicción de Ventas de Avena</h1>
-    <p>La predicción de ventas totales en soles es: S</p> 
-    <div class="contenedor-grafico">
-      <h1>new</h1>
-    </div>
+    <h1>123</h1>
   </div>
 
+ <!-- Contenedor para el formulario de predicción -->
+ <div id="predictionContainer" style="display: none;"></div>
 
-  <div class="grid-item1">1</div>
+  <div class="grid-item1">
+    <h1>Predicción de Ventas de Avena</h1>
+    <br>
+    <button class="button is-rounded" id="openPopupBtn" >Abrir Predicción</button>
+    <div id="predictionChartContainer" >
+      <canvas id="predictionChart"></canvas>
+    </div>
+  </div>
 
 
 
@@ -154,5 +138,64 @@
         }
       }
     });
+
+
+
+
+
+    document.getElementById('openPopupBtn').addEventListener('click', function() {
+
+      var ocultarboton = document.getElementById("openPopupBtn");
+
+      // Mostrar el contenedor y cargar el contenido del formulario
+      document.getElementById('predictionContainer').style.display = 'block';
+      loadPredictionForm();
+
+       if(ocultarboton){
+         ocultarboton.style.display ='none';
+       }
+
+     });
+
+  function loadPredictionForm() {
+      fetch('{% url 'prediccion_data' %}')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('predictionContainer').innerHTML = data;
+              setupFormSubmission();
+          })
+          .catch(error => console.error('Error al cargar el formulario de predicción:', error));
+  }
+
+  function setupFormSubmission() {
+   const form = document.querySelector('#predictionContainer form');
+   form.addEventListener('submit', function(e) {
+     e.preventDefault();
+     const formData = new FormData(this);
+
+     fetch('{% url 'result' %}', {
+       method: 'POST',
+       body: formData
+     })
+     .then(response => response.json())
+     .then(data => {
+       updatePredictionChart(data);
+       document.getElementById('predictionContainer').style.display = 'none';
+     })
+     .catch(error => console.error('Error:', error));
+   });
+ }
+
+
+ 
+
+ function cerrar() {
+  var popup = document.getElementById("notificacion-close");
+  if (popup) {
+    openPopupBtn.style.display = 'inline';
+    popup.style.display = 'none';
+  } 
+}
+
   </script>
 {% endblock %}

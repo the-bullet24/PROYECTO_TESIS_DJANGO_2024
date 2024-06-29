@@ -2,6 +2,8 @@
 
   {% block main %}
 
+  
+
   <!--Secciones-->
   
   <div class="column_graficos"style="margin-top: 2px;">
@@ -67,158 +69,97 @@
    <!--Inicio div-->
 
    <div class="contenedor">
-    <div class="columna">
-      <h1>Predicción de Ventas de Avena para el año {{ anio }}</h1>
-    <div class="contenedor-grafico">
-      <canvas id="salesChart"></canvas>
-    </div>
+    <div class="notification is-text" style="width: 100vh;">
+      <h1 class="title is-5" style="text-align: center;">Resultados de Prediccion</h1>
+      
+      <p>Año: {{ result.anio }}</p>
+      
+      {% for i in months %}
+        <p>Mes {{ i }}: Total Avena: {{ result.avena_por_mes.i }} - Prediccion: {{ result.predictions.i }}</p>
+      {% endfor %}
+      
+      <br>
+      <a class="button is-primary is-rounded" href="{% url 'prediccion_data' %}">Volver</a>
     </div>
 
-    {% comment %} <div class="columna">
-      <h1>Predicción de Ventas de Avena</h1>
-      <p>La predicción de ventas totales en soles es: S/. {{ result.predicted_sales}}</p>
-      <div class="contenedor-grafico">
-        <canvas id="salesChart2"></canvas>
+
+    <div class="grid-container">
+      <!--Grafico 1-->
+      <div class="grid-item2">
+        <h1>Ventas Mensuales en 2020</h1>
+        <div class="contenedor-grafico">
+          <canvas id="salesChart"></canvas>
+        </div>
       </div>
-    </div> {% endcomment %}
-  </div> 
+    </div>
+    <button class="button is-rounded" onclick="cerrar()" >Rounded</button>
+
+   </div> 
 
   
   <!--FIN div-->
   </div>
    <!--Secciones-->
-   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const ctx = document.getElementById('salesChart').getContext('2d');
-  const predictions = {{ predictions|safe }};
+   
   
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-      datasets: [{
-        label: 'Ventas Predichas (S/.)',
-        data: predictions,
-        backgroundColor: 'rgb(48, 148, 205)',
-        borderColor: 'rgb(48, 148, 205)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Ventas en Soles'
-          }
-        }
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: 'Predicción de Ventas Mensuales de Avena',
-          font: {
-            size: 16
-          }
-        }
-      }
-    }
-  });
-</script>
-  {% comment %} <script>
-    // Function to check if dark mode is enabled
-    function isDarkMode() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-  
-    
-
- 
-
-    // Data for charts
-    const predictedSales = parseFloat("{{ result.predicted_sales }}");
-    const totalAvena = parseFloat("{{ request.GET.total_avena }}");
-    const predictedSales2 = parseFloat("{{ result.predicted_sales }}");
-    const totalAvena2 = parseFloat("{{ request.GET.total_avena }}");
-
-    // Chart 1
+   <script>
     const ctx = document.getElementById('salesChart').getContext('2d');
+    const predictions = {{ result.predictions|safe }};
+    const avena_por_mes = {{ result.avena_por_mes|safe }};
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
     new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Total Avena', 'Ventas Predichas'],
-        datasets: [{
-          label: 'Cantidad',
-          data: [totalAvena, predictedSales],
-          backgroundColor: [
-            'rgb(183, 192, 210)',
-            'rgb(48, 148, 205)'
-          ],
-          borderColor: [
-            'rgb(183, 192, 210)',
-            'rgb(48, 148, 205)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Ventas Predichas',
+                data: predictions,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Total Avena',
+                data: avena_por_mes,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
         },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Total Avena vs Ventas Predichas',
-            color: 'black' // Or any desired color value (e.g., 'red', 'blue')
-
-          }
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Predicción de Ventas vs Total Avena por Mes',
+                    color: 'black'
+                }
+            }
         }
-      }
     });
 
-    // Chart 2
-    const ctx2 = document.getElementById('salesChart2').getContext('2d');
-    new Chart(ctx2, {
-      type: 'bar',
-      data: {
-        labels: ['Total Avena', 'Ventas Predichas'],
+    function cerrar(){
+      window.close();
+    }
 
-        datasets: [{
-          label: 'Cantidad',
-          data: [totalAvena2, predictedSales2],
-          backgroundColor: [
-            'rgb(183, 192, 210)',
-            'rgb(48, 148, 205)'
-          ],
-          borderColor: [
-            'rgb(183, 192, 210)',
-            'rgb(48, 148, 205)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Total Avena vs Ventas Predichas',
-            color: 'black' // Or any desired color value (e.g., 'red', 'blue')
 
-          }
-        }
-      }
-    });
-  </script> {% endcomment %}
+</script>
+
+
+
+
+
 {% endblock %}

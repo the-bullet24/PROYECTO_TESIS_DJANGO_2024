@@ -1,0 +1,32 @@
+.grid-container {
+  display: grid;
+  grid-template-rows: 410px 470px;
+  grid-template-columns: 777px 777px;
+  grid-gap: 5px;
+  margin: 10px 0px 10px 40px;
+}
+  
+  .grid-item1 {
+      
+    text-align: center;
+    border: black 2px solid;
+   
+    grid-template-rows: 100px;
+    margin: 9px -604px 13px 140px;
+    grid-row-end: 3;
+  }
+  .grid-item2 {
+      padding: 5px 50px 10px 40px;
+      text-align: center;
+      border: black 2px solid;
+  }
+
+    /* Estilo opcional para el botón */
+    #openPopupBtn {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        margin-top: 13%;
+        cursor: pointer;
+    }
