@@ -73,30 +73,47 @@
     <div class="grid-container">
       <!--Grafico 1-->
       <div class="grid-item2">
-        <h1>Ventas Mensuales en 2019</h1>
+        
         <div class="contenedor-grafico">
           <canvas id="salesChart"></canvas>
         </div>
       </div>
 
+      <!--Grafico 2-->
   
       <div class="grid-item2">
-        <h1>123</h1>
-      </div>
+        <div class="control has-icons-left" style="margin: 180px 0px 180px 0px;">
+            <div class="select">
+                <select id="yearSelect">
+                    <option value="" selected>Seleccione</option>
+                    <option value="2019">Ventas 2019</option>
+                    <option value="2020">Ventas 2020</option>
+                    <option value="2021">Ventas 2021</option>
+                    <option value="2022">Ventas 2022</option>
+                </select>
+            </div>
+            <div class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+            </div>
+        </div>
+    </div>
   
+      <!-- Div oculto para el gráfico del dropdown -->
+<div id="dropdownChartContainer" style="display: none;">
+  <canvas id="dropdownChart"></canvas>
+</div>
     
-    <div class="grid-item1">
-      <div class="contenedor-grafico" style="margin: auto; height: 443px; width: 91pc;">
-          <button class="button is-rounded" id="openPopupBtn">Abrir Predicción</button>
-          <div id="predictionChartContainer" style="display: none;">
-              <canvas id="predictionChart" style="height: 404px; width: 827px; margin: 13px 194px; padding: 10px 27px 10px 25px; display: block; box-sizing: border-box;"></canvas>
-          </div>
-      </div>
-  </div>
+    <!-- Contenedor para el formulario de predicción -->
+ <div id="predictionContainer" style="display: none;"></div>
 
-
-     <!-- Contenedor para el formulario de predicción -->
-       <div id="predictionContainer" style="display: none;"></div>
+ <div class="grid-item1">
+   <h1>Predicción de Ventas de Avena</h1>
+   <br>
+   <button class="button is-rounded" id="openPopupBtn" >Abrir Predicción</button>
+   <div id="predictionChartContainer" >
+     <canvas id="predictionChart"></canvas>
+   </div>
+ </div>
 
      <!--FIN div-->
     </div>
@@ -151,11 +168,6 @@
             if(ocultarboton){
               ocultarboton.style.display ='none';
             }
-
-            if(popupnoti){
-              canva.style.border='gray';
-            }
-
 
           });
 
@@ -265,10 +277,85 @@
         if (chartContainer.style.display === 'none') {
             chartContainer.style.display = 'block';
         } 
-
-       
-
     });
 
+    
+  var chartContainer = document.getElementById('predictionChartContainer');
+  if(chartContainer.style.display === 'block'){
+     chartContainer.style.display = 'none';
+  }
+
+
    </script>
+
+  
+
+   <script>
+
+    document.getElementById('yearSelect').addEventListener('change', function() {
+      const selectedYear = this.value;
+      if (selectedYear) {
+          fetchYearData(selectedYear);
+      } else {
+          document.getElementById('dropdownChartContainer').style.display = 'none';
+      }
+  });
+  
+  function fetchYearData(year) {
+      fetch(`http://127.0.0.1:8000/result/ventas_productos_2019/presentacion_graficos/${year}/`)
+          .then(response => response.json())
+          .then(data => {
+              createDropdownChart(data, year);
+          })
+          .catch(error => console.error('Error:', error));
+  }
+  
+  function createDropdownChart(data, year) {
+      const ctx = document.getElementById('dropdownChart').getContext('2d');
+      const chartContainer = document.getElementById('dropdownChartContainer');
+      
+      // Destruir el gráfico existente si hay uno
+      // if (window.dropdownChart) {
+      //    window.dropdownChart.destroy();
+     // }
+      
+      // Crear nuevo gráfico
+      window.dropdownChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: data.map(item => item.MESES),
+              datasets: [{
+                  label: `Ventas en cantidad ${year}`,
+                  data: data.map(item => item.TOTAL_VENTAS_EN_SOLES),
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              },
+              plugins: {
+                  title: {
+                      display: true,
+                      text: `Ventas Mensuales en ${year}`,
+                      color: 'black'
+                  }
+              }
+          }
+      });
+      
+      chartContainer.style.display = 'block';
+  }
+      
+  </script>
+
+
+
+
+
 {% endblock %}

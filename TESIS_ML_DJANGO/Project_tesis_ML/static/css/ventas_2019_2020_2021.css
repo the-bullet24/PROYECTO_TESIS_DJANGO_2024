@@ -16,9 +16,10 @@
     grid-row-end: 3;
   }
   .grid-item2 {
-      padding: 5px 50px 10px 40px;
-      text-align: center;
-      border: black 2px solid;
+    padding: 5px 50px 10px 40px;
+    text-align: center;
+    border: black 2px solid;    
+    margin-top: 20PX;
   }
 
     /* Estilo opcional para el botón */

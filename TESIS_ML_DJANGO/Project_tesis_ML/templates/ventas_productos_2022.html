@@ -70,7 +70,7 @@
    <div class="grid-container">
     <!--Grafico 1-->
     <div class="grid-item2">
-      <h1>Ventas Mensuales en 2021</h1>
+      <h1>Ventas Mensuales en 2022  - ACTUALIZAR A DATA DEL 2022</h1>
       <div class="contenedor-grafico">
         <canvas id="salesChart"></canvas>
       </div>
@@ -78,38 +78,38 @@
 
     <!--Grafico 2-->
 
-    <div class="grid-item2">
-      <h1>dss</h1>
-    </div>
-
-
-    {% comment %} <div class="grid-item1">
     
-      <div class="contenedor-grafico" style="
-          /* border: black 2px solid; */
-           /* text-align: center; */
-            margin: auto;
-            height: 395px;
-            width: 91pc;
-  ">
-        <canvas id="salesChart2" style="height: 395px; width: 790px; padding: 10px 27px 10px 25px; border: 2px solid black;"></canvas>
-      </div>
+  <div class="grid-item2">
+    <!--Inicio de Dropdown-->
+    <div class="control has-icons-left" style="margin: 180px 0px 180px 0px;">
+     <div class="select">
+       <select>
+         <option selected> Seleccione </option>
+         <option>Ventas 2019</option>
+         <option>Ventas 2020</option>
+         <option>Ventas 2021</option>
+         <option>Ventas 2022</option>
+       </select>
+     </div>
+     <div class="icon is-small is-left">
+       <i class="fas fa-globe"></i>
+     </div>
+   </div>
 
-    </div> {% endcomment %}
+   <!--Fin de Dropdown-->
+ </div>
 
-    <!-- Contenedor para el formulario de predicción -->
-    <div id="predictionContainer" style="display: none;"></div>
+<!-- Contenedor para el formulario de predicción -->
+<div id="predictionContainer" style="display: none;"></div>
 
-    <div class="grid-item1">
-      
-      <h1>Predicción de Ventas de Avena</h1>
-      <br>
-      <button class="button is-rounded" id="openPopupBtn" >Abrir Predicción</button>
-      <div id="predictionChartContainer" >
-        <canvas id="predictionChart"></canvas>
-      </div>
-
-    </div>
+ <div class="grid-item1">
+   <h1>Predicción de Ventas de Avena</h1>
+   <br>
+   <button class="button is-rounded" id="openPopupBtn" >Abrir Predicción</button>
+   <div id="predictionChartContainer" >
+     <canvas id="predictionChart"></canvas>
+   </div>
+ </div>
 <!--FIN div-->
 </div>
  
@@ -145,7 +145,7 @@
         plugins: {
           title: {
             display: true,
-            text: 'Ventas Mensuales en 2021',
+            text: 'Ventas Mensuales en 2020',
             color: 'black' 
           }
         }
@@ -153,62 +153,68 @@
     });
 
 
-      document.getElementById('openPopupBtn').addEventListener('click', function() {
 
-        var ocultarboton = document.getElementById("openPopupBtn");
 
-        // Mostrar el contenedor y cargar el contenido del formulario
-        document.getElementById('predictionContainer').style.display = 'block';
-        loadPredictionForm();
 
-         if(ocultarboton){
-           ocultarboton.style.display ='none';
-         }
+    document.getElementById('openPopupBtn').addEventListener('click', function() {
 
-       });
+      var ocultarboton = document.getElementById("openPopupBtn");
 
-    function loadPredictionForm() {
-        fetch('{% url 'prediccion_data' %}')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('predictionContainer').innerHTML = data;
-                setupFormSubmission();
-            })
-            .catch(error => console.error('Error al cargar el formulario de predicción:', error));
-    }
+      // Mostrar el contenedor y cargar el contenido del formulario
+      document.getElementById('predictionContainer').style.display = 'block';
+      loadPredictionForm();
 
-    function setupFormSubmission() {
-     const form = document.querySelector('#predictionContainer form');
-     form.addEventListener('submit', function(e) {
-       e.preventDefault();
-       const formData = new FormData(this);
+       if(ocultarboton){
+         ocultarboton.style.display ='none';
+       }
 
-       fetch('{% url 'result' %}', {
-         method: 'POST',
-         body: formData
-       })
-       .then(response => response.json())
-       .then(data => {
-         updatePredictionChart(data);
-         document.getElementById('predictionContainer').style.display = 'none';
-       })
-       .catch(error => console.error('Error:', error));
      });
-   }
 
-
-
-   
-
-   function cerrar() {
-    var popup = document.getElementById("notificacion-close");
-    if (popup) {
-      openPopupBtn.style.display = 'inline';
-      popup.style.display = 'none';
-    } 
+  function loadPredictionForm() {
+      fetch('{% url 'prediccion_data' %}')
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById('predictionContainer').innerHTML = data;
+              setupFormSubmission();
+          })
+          .catch(error => console.error('Error al cargar el formulario de predicción:', error));
   }
 
+  function setupFormSubmission() {
+   const form = document.querySelector('#predictionContainer form');
+   form.addEventListener('submit', function(e) {
+     e.preventDefault();
+     const formData = new FormData(this);
+
+     fetch('{% url 'result' %}', {
+       method: 'POST',
+       body: formData
+     })
+     .then(response => response.json())
+     .then(data => {
+       updatePredictionChart(data);
+       document.getElementById('predictionContainer').style.display = 'none';
+     })
+     .catch(error => console.error('Error:', error));
+   });
+ }
 
 
-    </script>
+ 
+
+ function cerrar() {
+  var popup = document.getElementById("notificacion-close");
+  if (popup) {
+    openPopupBtn.style.display = 'inline';
+    popup.style.display = 'none';
+  } 
+}
+
+var chartContainer = document.getElementById('predictionChartContainer');
+if(chartContainer.style.display === 'block'){
+   chartContainer.style.display = 'none';
+}
+
+
+  </script>
 {% endblock %}

@@ -29,6 +29,12 @@ urlpatterns = [
     path('result/ventas_productos_2021/', views.ventas_productos_2021, name='ventas_productos_2021'),
     path('result/ventas_productos_2022/', views.ventas_productos_2022, name='ventas_productos_2022'),
     
+    path('result/ventas_productos_2019/presentacion_graficos/<int:year>/', views.presentacion_graficos, name='presentacion_graficos'),
+
+    
+   
+    
+    
     
        
 ]

@@ -67,8 +67,7 @@
 
 <div class="grid-container">
   <!--Grafico 1-->
-  <div class="grid-item2">
-    <h1>Ventas Mensuales en 2020</h1>
+  <div class="grid-item2">    
     <div class="contenedor-grafico">
       <canvas id="salesChart"></canvas>
     </div>
@@ -78,7 +77,23 @@
 
   
   <div class="grid-item2">
-    <h1>123</h1>
+     <!--Inicio de Dropdown-->
+     <div class="control has-icons-left" style="margin: 180px 0px 180px 0px;">
+      <div class="select">
+        <select>
+          <option selected> Seleccione </option>
+          <option>Ventas 2019</option>
+          <option>Ventas 2020</option>
+          <option>Ventas 2021</option>
+          <option>Ventas 2022</option>
+        </select>
+      </div>
+      <div class="icon is-small is-left">
+        <i class="fas fa-globe"></i>
+      </div>
+    </div>
+
+    <!--Fin de Dropdown-->
   </div>
 
  <!-- Contenedor para el formulario de predicción -->
@@ -87,22 +102,20 @@
   <div class="grid-item1">
     <h1>Predicción de Ventas de Avena</h1>
     <br>
-    <button class="button is-rounded" id="openPopupBtn" >Abrir Predicción</button>
+    <button class="button is-rounded" id="openPopupBtn" >
+      Abrir Predicción
+    </button>
     <div id="predictionChartContainer" >
       <canvas id="predictionChart"></canvas>
     </div>
   </div>
-
-
-
-
 
 <!--FIN div-->
 </div>
  
 <script>
     // Datos JSON desde el backend
-    const salesData = JSON.parse('{{ json_data|safe }}');
+  const salesData = JSON.parse('{{ json_data|safe }}');
 
     // Extraer etiquetas y datos del JSON
     const labels = salesData.map(item => item.MESES);
@@ -195,6 +208,12 @@
     openPopupBtn.style.display = 'inline';
     popup.style.display = 'none';
   } 
+}
+
+
+var chartContainer = document.getElementById('predictionChartContainer');
+if(chartContainer.style.display === 'block'){
+   chartContainer.style.display = 'none';
 }
 
   </script>
