@@ -61,7 +61,7 @@ def result(request):
 
 ##VENTAS PRODUCTOS EFICIENCIA -
 
-def ventas_productos_2019(request):
+def ventas_productos_soles_2019(request):
     data = [
         {"ANIO": 2019, "MESES": "Enero",   "TOTAL_VENTAS_EN_SOLES" : 208329.61},
         {"ANIO": 2019, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 173151.12},
@@ -80,9 +80,9 @@ def ventas_productos_2019(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_productos_2019.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_soles_2019.html', {'json_data': json_data})
 
-def ventas_productos_2020(request):
+def ventas_productos_soles_2020(request):
     data = [
         {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 138844.35},
         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 131044.75},
@@ -101,9 +101,9 @@ def ventas_productos_2020(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_productos_2020.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_soles_2020.html', {'json_data': json_data})
 
-def ventas_productos_2021(request):
+def ventas_productos_soles_2021(request):
     data = [
           {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 188761.79},
         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 258132.35},
@@ -122,9 +122,9 @@ def ventas_productos_2021(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_productos_2021.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_soles_2021.html', {'json_data': json_data})
 
-def ventas_productos_2022(request):
+def ventas_productos_soles_2022(request):
     data = [
           {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 174745.45},
         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 171740.31},
@@ -143,14 +143,33 @@ def ventas_productos_2022(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_productos_2022.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_soles_2022.html', {'json_data': json_data})
 
 
- 
+def ventas_productos_soles_2023(request):
+    data = [
+        {"ANIO": 2023, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 232657.48},
+        {"ANIO": 2023, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 187855.66},
+        {"ANIO": 2023, "MESES": "Marzo",    "TOTAL_VENTAS_EN_SOLES": 230191.43},
+        {"ANIO": 2023, "MESES": "Abril",    "TOTAL_VENTAS_EN_SOLES": 237933.68},
+        {"ANIO": 2023, "MESES": "Mayo",     "TOTAL_VENTAS_EN_SOLES": 246777.05},
+        {"ANIO": 2023, "MESES": "Junio",    "TOTAL_VENTAS_EN_SOLES": 235593.80},
+        {"ANIO": 2023, "MESES": "Julio",    "TOTAL_VENTAS_EN_SOLES": 216851.82},
+        {"ANIO": 2023, "MESES": "Agosto",   "TOTAL_VENTAS_EN_SOLES": 243519.57},
+        {"ANIO": 2023, "MESES": "Setiembre","TOTAL_VENTAS_EN_SOLES": 232416.61},
+        {"ANIO": 2023, "MESES": "Octubre",  "TOTAL_VENTAS_EN_SOLES": 194622.96},
+        {"ANIO": 2023, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 203374.57},
+        {"ANIO": 2023, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 270233.20},        
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_productos_soles_2023.html', {'json_data': json_data}) 
 
 
 
-# Datos para 209,2020,2021,2022
+# Datos para 209,2020,2021,2022,2023
 
 def presentacion_graficos(request, year):
     # Aquí deberías tener lógica para obtener los datos del año específico
@@ -212,18 +231,28 @@ def presentacion_graficos(request, year):
                 {"ANIO": 2022, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 173609.92},
                 {"ANIO": 2022, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 187110.11},            
                 ], 
+        
+        '2023': [ # Datos para 2023
+                {"ANIO": 2023, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 232657.48},
+                {"ANIO": 2023, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 187855.66},
+                {"ANIO": 2023, "MESES": "Marzo",    "TOTAL_VENTAS_EN_SOLES": 230191.43},
+                {"ANIO": 2023, "MESES": "Abril",    "TOTAL_VENTAS_EN_SOLES": 237933.68},
+                {"ANIO": 2023, "MESES": "Mayo",     "TOTAL_VENTAS_EN_SOLES": 246777.05},
+                {"ANIO": 2023, "MESES": "Junio",    "TOTAL_VENTAS_EN_SOLES": 235593.80},
+                {"ANIO": 2023, "MESES": "Julio",    "TOTAL_VENTAS_EN_SOLES": 216851.82},
+                {"ANIO": 2023, "MESES": "Agosto",   "TOTAL_VENTAS_EN_SOLES": 243519.57},
+                {"ANIO": 2023, "MESES": "Setiembre","TOTAL_VENTAS_EN_SOLES": 232416.61},
+                {"ANIO": 2023, "MESES": "Octubre",  "TOTAL_VENTAS_EN_SOLES": 194622.96},
+                {"ANIO": 2023, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 203374.57},
+                {"ANIO": 2023, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 270233.20},            
+                ], 
             }
     
     return JsonResponse(data.get(str(year), []), safe=False)
 
 
 
-  ##VENTAS EN SOLES PRODUCTIVIDAD -
-  
-  
-  
-  
-    
+##VENTAS EN SOLES PRODUCTIVIDAD -
   
 ##Prediccion para PRODUCTIVIDAD
   
@@ -276,11 +305,7 @@ def result_prod(request):
   
   
   
-  
-  
-  
-  
-# Datos para 209,2020,2021,2022
+# Datos para 209,2020,2021,2022,2023
 
 def presentacion_graficos_productividad(request, year):
     # Aquí deberías tener lógica para obtener los datos del año específico
@@ -342,12 +367,25 @@ def presentacion_graficos_productividad(request, year):
                   {"ANIO": 2022, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 21991},
                   {"ANIO": 2022, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 23326},           
                 ],    
-            }
-    
+        '2023': [ # Datos para 2023   
+                  {"ANIO": 2023, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 19313},
+                  {"ANIO": 2023, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 17428},
+                  {"ANIO": 2023, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 25358},
+                  {"ANIO": 2023, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 23888},
+                  {"ANIO": 2023, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 25526},
+                  {"ANIO": 2023, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 23454},
+                  {"ANIO": 2023, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 22228},
+                  {"ANIO": 2023, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 23226},
+                  {"ANIO": 2023, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 14646},
+                  {"ANIO": 2023, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 21564},
+                  {"ANIO": 2023, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 10514},
+                  {"ANIO": 2023, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 11914},           
+                ],    
+            }    
     return JsonResponse(data.get(str(year), []), safe=False)
   
   
-def ventas_soles_2019(request):
+def ventas_productos_cantidad_2019(request):
     data = [
         {"ANIO": 2019, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 6851},
         {"ANIO": 2019, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 7830},
@@ -367,9 +405,9 @@ def ventas_soles_2019(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_soles_2019.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_cantidad_2019.html', {'json_data': json_data})
 
-def ventas_soles_2020(request):
+def ventas_productos_cantidad_2020(request):
     data = [
          {"ANIO": 2020, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 8031},
          {"ANIO": 2020, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 6548},
@@ -388,9 +426,9 @@ def ventas_soles_2020(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_soles_2020.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_cantidad_2020.html', {'json_data': json_data})
 
-def ventas_soles_2021(request):
+def ventas_productos_cantidad_2021(request):
     data = [
          {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 15037},
          {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14703},
@@ -409,10 +447,10 @@ def ventas_soles_2021(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_soles_2021.html', {'json_data': json_data})
+    return render(request, 'ventas_productos_cantidad_2021.html', {'json_data': json_data})
 
   
-def ventas_soles_2022(request):
+def ventas_productos_cantidad_2022(request):
     data = [
          {"ANIO": 2022, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 13582},
          {"ANIO": 2022, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14507},
@@ -431,7 +469,40 @@ def ventas_soles_2022(request):
     # Convert data to JSON
     json_data = json.dumps(data)
     
-    return render(request, 'ventas_soles_2022.html', {'json_data': json_data})
-ventas_soles_2022
-  
-  
+    return render(request, 'ventas_productos_cantidad_2022.html', {'json_data': json_data})
+
+def ventas_productos_cantidad_2023(request):
+    data = [
+         {"ANIO": 2023, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 19313},
+         {"ANIO": 2023, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 17428},
+         {"ANIO": 2023, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 25358},
+         {"ANIO": 2023, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 23888},
+         {"ANIO": 2023, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 25526},
+         {"ANIO": 2023, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 23454},
+         {"ANIO": 2023, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 22228},
+         {"ANIO": 2023, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 23226},
+         {"ANIO": 2023, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 14646},
+         {"ANIO": 2023, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 21564},
+         {"ANIO": 2023, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 10514},
+         {"ANIO": 2023, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 11914},        
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_productos_cantidad_2023.html', {'json_data': json_data})
+
+
+
+                  
+
+
+
+
+
+
+
+
+
+
+

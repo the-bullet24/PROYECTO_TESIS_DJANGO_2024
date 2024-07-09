@@ -26,10 +26,11 @@
           <li>
             <a class="is-active">Año</a>
             <ul>
-              <li><a href="{% url 'ventas_productos_2019' %}">2019</a></li>
-              <li><a href="{% url 'ventas_productos_2020' %}">2020</a></li>
-              <li><a href="{% url 'ventas_productos_2021' %}">2021</a></li>
-              <li><a href="{% url 'ventas_productos_2022' %}">2022</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2019' %}">2019</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2020' %}">2020</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2021' %}">2021</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2022' %}">2022</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2023' %}">2023</a></li>
             </ul>
           </li>      
         </ul>
@@ -39,10 +40,11 @@
         <li>
           <a class="is-active">Año</a>
           <ul>
-            <li><a href="{% url 'ventas_soles_2019' %}">2019</a></li>
-            <li><a href="{% url 'ventas_soles_2020' %}">2020</a></li>
-            <li><a href="{% url 'ventas_soles_2021' %}">2021</a></li>
-            <li><a href="{% url 'ventas_soles_2022' %}">2022</a></li>  
+            <li><a href="{% url 'ventas_productos_cantidad_2019' %}">2019</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2020' %}">2020</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2021' %}">2021</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2022' %}">2022</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2023' %}">2023</a></li>  
           </ul>
         </li>      
       </ul>
@@ -51,14 +53,15 @@
 
 
       <p class="menu-label">Transactions</p>
-       <ul class="menu-list">
+      <ul class="menu-list">
+                
         <button class="button is-link is-inverted" id="downloadBtn" >
             Download Graphics
         </button>
-
-         <br>
-         <li><a class="button is-danger is-outlined">Cerrar sesión</a></li>
-       </ul>
+        
+        <br>
+        <li><a class="button is-danger is-outlined">Cerrar sesión</a></li>
+    </ul>
       </aside>
     </div>
     <!--FIN ASIDE-->
@@ -69,11 +72,13 @@
     <!--Grafico 1-->
     <div class="grid-item2">  
       <div class="control has-icons-left" style="margin: 180px 0px 180px 0px;">
-                
+        
+        
         <div class="contenedor-grafico">
             <canvas id="salesChart" style="margin-top: -144px;display: block;box-sizing: border-box; height: 300px; width: 600px;"></canvas>
         </div>
         </div>
+        
     </div>
 
     <!--Grafico 2-->
@@ -87,6 +92,7 @@
           <option value="2020">Ventas 2020</option>
           <option value="2021">Ventas 2021</option>
           <option value="2022">Ventas 2022</option>
+          <option value="2023">Ventas 2023</option>
         </select>
       </div>
 
@@ -110,6 +116,7 @@
    <button class="button is-rounded" id="openPopupBtn" >
     Abrir Predicción
   </button>
+  
   <div id="predictionChartContainer" style="margin-top: 20px; display: block;">
     <canvas id="predictionChart"  style="margin: 0px 300px 7px 184px;
     display: block;
@@ -124,80 +131,81 @@
 
 <script>
     // Datos JSON desde el backend - Gráfico 1: Ventas Mensuales
-    const salesData = JSON.parse('{{ json_data|safe }}');
-const labels = salesData.map(item => item.MESES);
-const data = salesData.map(item => item.TOTAL_VENTAS_EN_SOLES);
-
-// Calcula el total de ventas
-const totalVentas = data.reduce((sum, value) => sum + value, 0);
-
-// Calcula los porcentajes
-const percentages = data.map(value => ((value / totalVentas) * 100).toFixed(1));
-
-const ctx = document.getElementById('salesChart').getContext('2d');
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Ventas en soles',
-            data: data,
-            backgroundColor: 'rgb(153, 228, 114)',
-            borderColor: 'rgb(153, 228, 114)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: { y: { beginAtZero: true } },
-        plugins: {
-            title: {
-                display: true,
-                text: 'Ventas mensuales en Soles de Productos  2021',
-                color: 'black' 
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        let label = context.dataset.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        if (context.parsed.y !== null) {
-                            label += context.parsed.y + ' (' + percentages[context.dataIndex] + '%)';
-                        }
-                        return label;
-                    }
-                }
-            }
-        }
-    },
-    plugins: [{
-        afterDraw: function(chart) {
-            var ctx = chart.ctx;
-            chart.data.datasets.forEach(function (dataset, i) {
-                var meta = chart.getDatasetMeta(i);
-                if (!meta.hidden) {
-                    meta.data.forEach(function(element, index) {
-                        // Dibuja el porcentaje en cada barra
-                        ctx.fillStyle = 'rgb(0, 0, 0)';
-                        var fontSize = 12;
-                        var fontStyle = 'normal';
-                        var fontFamily = 'Arial';
-                        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-                        var dataString = percentages[index] + '%';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        var position = element.tooltipPosition();
-                        ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - 5);
-                    });
-                }
-            });
-        }
-    }]
-});
-
-    // INICIO - Función de button para descarga de los canvas
+     // Datos JSON desde el backend - Gráfico 1: Ventas Mensuales
+     const salesData = JSON.parse('{{ json_data|safe }}');
+     const labels = salesData.map(item => item.MESES);
+     const data = salesData.map(item => item.TOTAL_VENTAS_CANTIDAD);
+     
+     // Calcula el total de ventas
+     const totalVentas = data.reduce((sum, value) => sum + value, 0);
+     
+     // Calcula los porcentajes
+     const percentages = data.map(value => ((value / totalVentas) * 100).toFixed(1));
+     
+     const ctx = document.getElementById('salesChart').getContext('2d');
+     new Chart(ctx, {
+         type: 'bar',
+         data: {
+             labels: labels,
+             datasets: [{
+                 label: 'Ventas en Cantidad',
+                 data: data,
+                 backgroundColor: 'rgb(255, 138, 118)',
+                 borderColor: 'rgb(255, 138, 118)',
+                 borderWidth: 1
+             }]
+         },
+         options: {
+             responsive: true,
+             scales: { y: { beginAtZero: true } },
+             plugins: {
+                 title: {
+                     display: true,
+                     text: 'Venta en Cantidad del Año 2023',
+                     color: 'black' 
+                 },
+                 tooltip: {
+                     callbacks: {
+                         label: function(context) {
+                             let label = context.dataset.label || '';
+                             if (label) {
+                                 label += ': ';
+                             }
+                             if (context.parsed.y !== null) {
+                                 label += context.parsed.y + ' (' + percentages[context.dataIndex] + '%)';
+                             }
+                             return label;
+                         }
+                     }
+                 }
+             }
+         },
+         plugins: [{
+             afterDraw: function(chart) {
+                 var ctx = chart.ctx;
+                 chart.data.datasets.forEach(function (dataset, i) {
+                     var meta = chart.getDatasetMeta(i);
+                     if (!meta.hidden) {
+                         meta.data.forEach(function(element, index) {
+                             // Dibuja el porcentaje en cada barra
+                             ctx.fillStyle = 'rgb(0, 0, 0)';
+                             var fontSize = 12;
+                             var fontStyle = 'normal';
+                             var fontFamily = 'Arial';
+                             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                             var dataString = percentages[index] + '%';
+                             ctx.textAlign = 'center';
+                             ctx.textBaseline = 'middle';
+                             var position = element.tooltipPosition();
+                             ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - 5);
+                         });
+                     }
+                 });
+             }
+         }]
+     });
+     
+     // INICIO - Función de button para descarga de los canvas
     // Función para descargar la imagen del gráfico
     function downloadImage() {
         const canvases = [
@@ -219,6 +227,9 @@ new Chart(ctx, {
 
     // FIN - Función de button para descarga de los canvas
 
+
+
+
     // Gráfico 2: Ventas por Año Seleccionado
     let dropdownChart;
 
@@ -232,7 +243,7 @@ document.getElementById('yearSelect').addEventListener('change', function() {
 });
 
 function fetchYearData(year) {
-    fetch(`http://127.0.0.1:8000/result/ventas_productos_2019/presentacion_graficos/${year}/`)
+    fetch(`http://127.0.0.1:8000/result_prod/ventas_productos_cantidad_2019/presentacion_graficos/${year}/`)
         .then(response => response.json())
         .then(data => createDropdownChart(data, year))
         .catch(error => console.error('Error:', error));
@@ -246,7 +257,7 @@ function createDropdownChart(data, year) {
         dropdownChart.destroy();
     }
     
-    const ventas = data.map(item => item.TOTAL_VENTAS_EN_SOLES);
+    const ventas = data.map(item => item.TOTAL_VENTAS_CANTIDAD);
     const totalVentas = ventas.reduce((sum, value) => sum + value, 0);
     const percentages = ventas.map(value => ((value / totalVentas) * 100).toFixed(1));
 
@@ -255,10 +266,18 @@ function createDropdownChart(data, year) {
         data: {
             labels: data.map(item => item.MESES),
             datasets: [{
-                label: `Ventas en cantidad ${year}`,
+                label: `Ventas en Cantidad ${year}`,
                 data: ventas,
-                backgroundColor: 'rgb(169, 112, 235)',
-                borderColor: 'rgb(169, 112, 235)',
+                backgroundColor: [
+  
+  'rgb(230, 224, 178)', // Second bar
+  // ... colors for other bars
+],
+        borderColor: [
+        
+        'rgb(184, 134, 11)', // Second bar border
+        // ... border colors for other bars
+        ],
                 borderWidth: 1
             }]
         },
@@ -325,92 +344,94 @@ function createDropdownChart(data, year) {
 
        });
 
-    function loadPredictionForm() {
-        fetch('{% url 'prediccion_data' %}')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('predictionContainer').innerHTML = data;
-                setupFormSubmission();
-            })
-            .catch(error => console.error('Error al cargar el formulario de predicción:', error));
-    }
-
-    function setupFormSubmission() {
-     const form = document.querySelector('#predictionContainer form');
-     form.addEventListener('submit', function(e) {
-       e.preventDefault();
-       const formData = new FormData(this);
-
-       fetch('{% url 'result' %}', {
-         method: 'POST',
-         body: formData
-       })
-       .then(response => response.json())
-       .then(data => {
-         updatePredictionChart(data);
-         document.getElementById('predictionContainer').style.display = 'none';
-       })
-       .catch(error => console.error('Error:', error));
-     });
-   }
-
-   function updatePredictionChart(data) {
-    const ctx = document.getElementById('predictionChart').getContext('2d');
-    const chartContainer = document.getElementById('predictionChartContainer');
-    
-    chartContainer.style.display = 'block';
-    
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            datasets: [{
-                label: 'Prediccion de ventas',
-                data: data.predictions,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }, {
-                label: 'Meta de ventas',
-                data: data.avena_por_mes,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Cantidad' }
-                },
-                x: {
-                    title: { display: true, text: 'Meses' }
-                }
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Grafico de Ventas Anual',
-                    color: 'black'
-                },
-                tooltip: {
-                    enabled: true
-                },
-                datalabels: {
-                    anchor: 'end',
-                    align: 'top',
-                    formatter: function(value) {
-                        return Math.round(value);
-                    },
-                    font: {
-                        weight: 'bold'
-                    }
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
-    });
+//prueba 1
+function loadPredictionForm() {
+  fetch('{% url 'prediccion_data_prod' %}')
+      .then(response => response.text())
+      .then(data => {
+          document.getElementById('predictionContainer').innerHTML = data;
+          setupFormSubmission();
+      })
+      .catch(error => console.error('Error al cargar el formulario de predicción:', error));
 }
+
+function setupFormSubmission() {
+  const form = document.querySelector('#predictionContainer form');
+  form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch('{% url 'result_prod' %}', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          updatePredictionChart(data);
+          document.getElementById('predictionContainer').style.display = 'none';
+      })
+      .catch(error => console.error('Error:', error));
+  });
+}
+
+function updatePredictionChart(data) {
+  const ctx = document.getElementById('predictionChart').getContext('2d');
+  const chartContainer = document.getElementById('predictionChartContainer');
+  
+  chartContainer.style.display = 'block';
+  
+  new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+          datasets: [{
+              label: 'Prediccion de ventas',
+              data: data.predictions,
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.1
+          }, {
+              label: 'Meta de ventas',
+              data: data.avena_por_mes,
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.1
+          }]
+      },
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  title: { display: true, text: 'Cantidad' }
+              },
+              x: {
+                  title: { display: true, text: 'Meses' }
+              }
+          },
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Grafico de Ventas Anual',
+                  color: 'black'
+              },
+              tooltip: {
+                  enabled: true
+              },
+              datalabels: {
+                  anchor: 'end',
+                  align: 'top',
+                  formatter: function(value) {
+                      return Math.round(value);
+                  },
+                  font: {
+                      weight: 'bold'
+                  }
+              }
+          }
+      },
+      plugins: [ChartDataLabels]
+  });
+}
+  
 
    function cerrar() {
     var popup = document.getElementById("notificacion-close");

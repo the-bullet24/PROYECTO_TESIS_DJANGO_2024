@@ -25,22 +25,24 @@ urlpatterns = [
     
     path('result/prediccion_data/', views.prediccion_data, name='prediccion_data'),
     path('result/', views.result, name='result'),
-    path('result/ventas_productos_2019/', views.ventas_productos_2019, name='ventas_productos_2019'),
-    path('result/ventas_productos_2020/', views.ventas_productos_2020, name='ventas_productos_2020'),
-    path('result/ventas_productos_2021/', views.ventas_productos_2021, name='ventas_productos_2021'),
-    path('result/ventas_productos_2022/', views.ventas_productos_2022, name='ventas_productos_2022'),
+    path('result/ventas_productos_soles_2019/', views.ventas_productos_soles_2019, name='ventas_productos_soles_2019'),
+    path('result/ventas_productos_soles_2020/', views.ventas_productos_soles_2020, name='ventas_productos_soles_2020'),
+    path('result/ventas_productos_soles_2021/', views.ventas_productos_soles_2021, name='ventas_productos_soles_2021'),
+    path('result/ventas_productos_soles_2022/', views.ventas_productos_soles_2022, name='ventas_productos_soles_2022'),
+    path('result/ventas_productos_soles_2023/', views.ventas_productos_soles_2023, name='ventas_productos_soles_2023'),
     
-    path('result/ventas_productos_2019/presentacion_graficos/<int:year>/', views.presentacion_graficos, name='presentacion_graficos'),
+    path('result/ventas_productos_soles_2019/presentacion_graficos/<int:year>/', views.presentacion_graficos, name='presentacion_graficos'),
 
     ##Ventas en soles 2021 
     path('result_prod/prediccion_data_prod/', views.prediccion_data_prod, name='prediccion_data_prod'),
     path('result_prod/', views.result_prod, name='result_prod'),
-    path('result_prod/ventas_soles_2019/', views.ventas_soles_2019, name='ventas_soles_2019'),
-    path('result_prod/ventas_soles_2020/', views.ventas_soles_2020, name='ventas_soles_2020'),
-    path('result_prod/ventas_soles_2021/', views.ventas_soles_2021, name='ventas_soles_2021'),
-    path('result_prod/ventas_soles_2022/', views.ventas_soles_2022, name='ventas_soles_2022'),
+    path('result_prod/ventas_productos_cantidad_2019/', views.ventas_productos_cantidad_2019, name='ventas_productos_cantidad_2019'),
+    path('result_prod/ventas_productos_cantidad_2020/', views.ventas_productos_cantidad_2020, name='ventas_productos_cantidad_2020'),
+    path('result_prod/ventas_productos_cantidad_2021/', views.ventas_productos_cantidad_2021, name='ventas_productos_cantidad_2021'),
+    path('result_prod/ventas_productos_cantidad_2022/', views.ventas_productos_cantidad_2022, name='ventas_productos_cantidad_2022'),
+    path('result_prod/ventas_productos_cantidad_2023/', views.ventas_productos_cantidad_2023, name='ventas_productos_cantidad_2023'),
    
-    path('result_prod/ventas_soles_2019/presentacion_graficos/<int:year>/', views.presentacion_graficos_productividad, name='presentacion_graficos_productividad'),
+    path('result_prod/ventas_productos_cantidad_2019/presentacion_graficos/<int:year>/', views.presentacion_graficos_productividad, name='presentacion_graficos_productividad'),
     
        
 ]

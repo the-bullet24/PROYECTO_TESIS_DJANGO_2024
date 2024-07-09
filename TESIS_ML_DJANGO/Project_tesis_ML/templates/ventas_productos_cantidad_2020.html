@@ -26,10 +26,11 @@
           <li>
             <a class="is-active">Año</a>
             <ul>
-              <li><a href="{% url 'ventas_productos_2019' %}">2019</a></li>
-              <li><a href="{% url 'ventas_productos_2020' %}">2020</a></li>
-              <li><a href="{% url 'ventas_productos_2021' %}">2021</a></li>
-              <li><a href="{% url 'ventas_productos_2022' %}">2022</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2019' %}">2019</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2020' %}">2020</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2021' %}">2021</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2022' %}">2022</a></li>
+              <li><a href="{% url 'ventas_productos_soles_2023' %}">2023</a></li>
             </ul>
           </li>      
         </ul>
@@ -39,10 +40,11 @@
         <li>
           <a class="is-active">Año</a>
           <ul>
-            <li><a href="{% url 'ventas_soles_2019' %}">2019</a></li>
-            <li><a href="{% url 'ventas_soles_2020' %}">2020</a></li>
-            <li><a href="{% url 'ventas_soles_2021' %}">2021</a></li>
-            <li><a href="{% url 'ventas_soles_2022' %}">2022</a></li>            
+            <li><a href="{% url 'ventas_productos_cantidad_2019' %}">2019</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2020' %}">2020</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2021' %}">2021</a></li>
+            <li><a href="{% url 'ventas_productos_cantidad_2022' %}">2022</a></li>   
+            <li><a href="{% url 'ventas_productos_cantidad_2023' %}">2023</a></li>            
           </ul>
         </li>      
       </ul>
@@ -90,6 +92,7 @@
           <option value="2020">Ventas 2020</option>
           <option value="2021">Ventas 2021</option>
           <option value="2022">Ventas 2022</option>
+          <option value="2023">Ventas 2023</option>
         </select>
       </div>
 
@@ -158,7 +161,7 @@
              plugins: {
                  title: {
                      display: true,
-                     text: 'Venta en soles del Año 2019',
+                     text: 'Venta en Cantidad del Año 2020',
                      color: 'black' 
                  },
                  tooltip: {
@@ -203,27 +206,31 @@
      });
      
 
-    // INICIO - Función de button para descarga de los canvas
-        // Función para descargar la imagen del gráfico
-        function downloadImage() {
-            const canvases = [
-                document.getElementById('salesChart'),
-                document.getElementById('dropdownChart'),
-                document.getElementById('predictionChart')
-            ];
+     
+// INICIO - Función de button para descarga de los canvas
+    // Función para descargar la imagen del gráfico
+    function downloadImage() {
+        const canvases = [
+            document.getElementById('salesChart'),
+            document.getElementById('dropdownChart'),
+            document.getElementById('predictionChart')
+        ];
 
-            canvases.forEach((canvas, index) => {
-                const link = document.createElement('a');
-                link.href = canvas.toDataURL('image/png');
-                link.download = `chart_${index + 1}.png`;
-                link.click();
-            });
-        }
+        canvases.forEach((canvas, index) => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `chart_${index + 1}.png`;
+            link.click();
+        });
+    }
 
-        // Añadir evento al botón de descarga
-        document.getElementById('downloadBtn').addEventListener('click', downloadImage);
+    // Añadir evento al botón de descarga
+    document.getElementById('downloadBtn').addEventListener('click', downloadImage);
 
-        // FIN - Función de button para descarga de los canvas
+    // FIN - Función de button para descarga de los canvas
+
+
+
 
 
     // Gráfico 2: Ventas por Año Seleccionado
@@ -239,7 +246,7 @@ document.getElementById('yearSelect').addEventListener('change', function() {
 });
 
 function fetchYearData(year) {
-    fetch(`http://127.0.0.1:8000/result_prod/ventas_soles_2019/presentacion_graficos/${year}/`)
+    fetch(`http://127.0.0.1:8000/result_prod/ventas_productos_cantidad_2019/presentacion_graficos/${year}/`)
         .then(response => response.json())
         .then(data => createDropdownChart(data, year))
         .catch(error => console.error('Error:', error));
@@ -262,11 +269,17 @@ function createDropdownChart(data, year) {
         data: {
             labels: data.map(item => item.MESES),
             datasets: [{
-                label: `VENTAS EN Cantidad ${year}`,
+                label: `Ventas en Cantidad ${year}`,
                 data: ventas,
-                backgroundColor: ['rgb(230, 224, 178)', 
-                ],
-        borderColor: ['rgb(184, 134, 11)', 
+                backgroundColor: [
+  
+  'rgb(230, 224, 178)', // Second bar
+  // ... colors for other bars
+],
+        borderColor: [
+        
+        'rgb(184, 134, 11)', // Second bar border
+        // ... border colors for other bars
         ],
                 borderWidth: 1
             }]
@@ -421,6 +434,7 @@ function updatePredictionChart(data) {
       plugins: [ChartDataLabels]
   });
 }
+    
 
    function cerrar() {
     var popup = document.getElementById("notificacion-close");
