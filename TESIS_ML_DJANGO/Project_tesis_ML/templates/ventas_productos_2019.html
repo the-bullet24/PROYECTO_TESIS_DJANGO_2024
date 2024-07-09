@@ -111,13 +111,12 @@
         </div>
     </div>    
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/chart.min.js"></script>
 
 
 <script>
     
-
 // Datos JSON desde el backend - Gráfico 1: Ventas Mensuales
 const salesData = JSON.parse('{{ json_data|safe }}');
 const labels = salesData.map(item => item.MESES);
@@ -135,7 +134,7 @@ new Chart(ctx, {
     data: {
         labels: labels,
         datasets: [{
-            label: 'Ventas en cantidad',
+            label: 'Ventas en soles',
             data: data,
             backgroundColor: 'rgb(153, 228, 114)',
             borderColor: 'rgb(153, 228, 114)',

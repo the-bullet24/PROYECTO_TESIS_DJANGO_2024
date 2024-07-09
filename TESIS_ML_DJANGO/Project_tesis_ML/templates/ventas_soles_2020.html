@@ -51,11 +51,15 @@
 
 
       <p class="menu-label">Transactions</p>
-       <ul class="menu-list">
-         <li><a class="button is-link is-inverted">Download Graphics </a></li>
-         <br>
-         <li><a class="button is-danger is-outlined">Cerrar sesión</a></li>
-       </ul>
+      <ul class="menu-list">
+                
+        <button class="button is-link is-inverted" id="downloadBtn" >
+            Download Graphics
+        </button>
+        
+        <br>
+        <li><a class="button is-danger is-outlined">Cerrar sesión</a></li>
+    </ul>
       </aside>
     </div>
     <!--FIN ASIDE-->
@@ -199,6 +203,28 @@
      });
      
 
+     
+// INICIO - Función de button para descarga de los canvas
+    // Función para descargar la imagen del gráfico
+    function downloadImage() {
+        const canvases = [
+            document.getElementById('salesChart'),
+            document.getElementById('dropdownChart'),
+            document.getElementById('predictionChart')
+        ];
+
+        canvases.forEach((canvas, index) => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `chart_${index + 1}.png`;
+            link.click();
+        });
+    }
+
+    // Añadir evento al botón de descarga
+    document.getElementById('downloadBtn').addEventListener('click', downloadImage);
+
+    // FIN - Función de button para descarga de los canvas
 
 
 
