@@ -1,0 +1,159 @@
+  {% extends "cabecera.html" %}
+
+  {% block main %}
+
+  
+
+  <!--Secciones-->
+  
+  <div class="column_graficos"style="margin-top: 2px;">
+    <!-- Primer gráfico -->
+    
+    <!--INICIO ASIDE-->
+    <div style="
+      display: block;
+      margin-left: 3px;
+      padding: 10px 17px 39px 10px;
+      box-shadow: 0 0px 2px rgba(0, 0, 0, .6);">
+
+    
+      <aside class="menu">
+        <p class="menu-label">Administracion</p>
+        
+        <p class="menu-label">Gestión de Ventas</p>
+        
+  
+        <p class="menu-label">Eficiencia</p>
+        <p class="menu-label">VENTAS DE PRODUCTOS EN SOLES</p>
+        <ul class="menu-list">       
+          <li>
+            <a class="is-active">Año</a>
+            <ul>
+              <li><a href="{% url 'ventas_productos_2019' %}">2019</a></li>
+              <li><a href="{% url 'ventas_productos_2020' %}">2020</a></li>
+              <li><a href="{% url 'ventas_productos_2021' %}">2021</a></li>
+              <li><a href="{% url 'ventas_productos_2022' %}">2022</a></li>
+            </ul>
+          </li>      
+        </ul>
+        <p class="menu-label">Productividad</p>
+      <p class="menu-label">VENTAS EN Cantidad</p>
+      <ul class="menu-list">       
+        <li>
+          <a class="is-active">Año</a>
+          <ul>
+            <li><a href="{% url 'ventas_soles_2019' %}">2019</a></li>
+            <li><a href="{% url 'ventas_soles_2020' %}">2020</a></li>
+            <li><a href="{% url 'ventas_soles_2021' %}">2021</a></li>
+            <li><a href="{% url 'ventas_soles_2022' %}">2022</a></li>            
+          </ul>
+        </li>      
+      </ul>
+
+
+
+
+      <p class="menu-label">Transactions</p>
+       <ul class="menu-list">
+         <li><a class="button is-link is-inverted">Download Graphics </a></li>
+         <br>
+         <li><a class="button is-danger is-outlined">Cerrar sesión</a></li>
+       </ul>
+      </aside>
+    </div>
+    <!--FIN ASIDE-->
+
+
+   <!--Inicio div-->
+
+   <div class="contenedor">
+    <div class="notification is-text" style="width: 100vh;">
+      <h1 class="title is-5" style="text-align: center;">Resultados de Prediccion</h1>
+      
+      <p>Año: {{ result_prod.anio }}</p>
+      
+      {% for i in months %}
+        <p>Mes {{ i }}: Total Avena: {{ result_prod.ventas_por_mes.i }} - Prediccion: {{ result_prod.predictions.i }}</p>
+      {% endfor %}
+      
+      <br>
+      <a class="button is-primary is-rounded" href="{% url 'prediccion_data_prod' %}">Volver</a>
+    </div>
+
+
+    <div class="grid-container">
+      <!--Grafico 1-->
+      <div class="grid-item2">
+        <h1>Ventas mensuales en Soles de Productos  2020</h1>
+        <div class="contenedor-grafico">
+          <canvas id="salesChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <button class="button is-rounded" onclick="cerrar()" >Rounded</button>
+
+   </div> 
+
+  
+  <!--FIN div-->
+  </div>
+   <!--Secciones-->
+   
+  
+   <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const predictions = {{ result_prod.predictions|safe }};
+    const avena_por_mes = {{ result_prod.ventas_por_mes|safe }};
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Prediccion de ventas',
+                data: predictions,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, {
+                label: 'Total Avena',
+                data: avena_por_mes,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Cantidad'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Grafico de Ventas Anual',
+                    color: 'black'
+                }
+            }
+        }
+    });
+
+    function cerrar(){
+      window.close();
+    }
+
+
+</script>
+
+{% endblock %}

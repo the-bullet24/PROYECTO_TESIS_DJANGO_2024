@@ -14,29 +14,7 @@ def inicio(request):
     return render(request, 'inicio.html')
 
 
-
- #custom method for generating predictions
-# def getPredictions(anio, mes, total_avena):
-#      # Obtener la ruta del directorio actual del archivo
-#      base_dir = os.path.dirname(os.path.abspath(__file__))
-    
-# #     # Construir la ruta completa a los archivos .sav
-#      model_path = os.path.join(base_dir, "avena_sales_prediction_model.sav")
-#      scaler_path = os.path.join(base_dir, "avena_sales_scaler.sav")
-    
-# #     # Cargar el modelo y el escalador
-#      model = pickle.load(open(model_path, "rb"))
-#      scaler = pickle.load(open(scaler_path, "rb"))
-    
-#      input_data = pd.DataFrame([[anio, mes, total_avena]], columns=['ANIO', 'MESES_NUM', 'TOTAL_AVENA'])
-#      input_data_scaled = scaler.transform(input_data)
-    
-#      prediction = model.predict(input_data_scaled)
-    
-#      return {
-#          "predicted_sales": float(prediction[0])
-#      }
-
+# Función para obtener predicciones - Efciecia 
 def getPredictions(anio, avena_por_mes):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(base_dir, "avena_sales_prediction_model.sav")
@@ -81,6 +59,7 @@ def result(request):
         return render(request, 'prediccion_data.html')
 
 
+##VENTAS PRODUCTOS EFICIENCIA -
 
 def ventas_productos_2019(request):
     data = [
@@ -96,7 +75,7 @@ def ventas_productos_2019(request):
         {"ANIO": 2019, "MESES": "Octubre",  "TOTAL_VENTAS_EN_SOLES": 261194.84},
         {"ANIO": 2019, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 168058.44},
         {"ANIO": 2019, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 149064.12},
-    ]
+        ]
 
     # Convert data to JSON
     json_data = json.dumps(data)
@@ -126,7 +105,7 @@ def ventas_productos_2020(request):
 
 def ventas_productos_2021(request):
     data = [
-        {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 188761.79},
+          {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 188761.79},
         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 258132.35},
         {"ANIO": 2021, "MESES": "Marzo",    "TOTAL_VENTAS_EN_SOLES": 181260.41},
         {"ANIO": 2021, "MESES": "Abril",    "TOTAL_VENTAS_EN_SOLES": 195483.21},
@@ -137,7 +116,7 @@ def ventas_productos_2021(request):
         {"ANIO": 2021, "MESES": "Setiembre","TOTAL_VENTAS_EN_SOLES": 188394.75},
         {"ANIO": 2021, "MESES": "Octubre",  "TOTAL_VENTAS_EN_SOLES": 132811.13},
         {"ANIO": 2021, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 175640.11},
-        {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 138167.62},
+        {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 138167.62},    
     ]
 
     # Convert data to JSON
@@ -147,7 +126,7 @@ def ventas_productos_2021(request):
 
 def ventas_productos_2022(request):
     data = [
-        {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 174745.45},
+          {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_EN_SOLES": 174745.45},
         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 171740.31},
         {"ANIO": 2021, "MESES": "Marzo",    "TOTAL_VENTAS_EN_SOLES": 268799.45},
         {"ANIO": 2021, "MESES": "Abril",    "TOTAL_VENTAS_EN_SOLES": 220464.87},
@@ -158,7 +137,7 @@ def ventas_productos_2022(request):
         {"ANIO": 2021, "MESES": "Setiembre","TOTAL_VENTAS_EN_SOLES": 166108.54},
         {"ANIO": 2021, "MESES": "Octubre",  "TOTAL_VENTAS_EN_SOLES": 164571.56},
         {"ANIO": 2021, "MESES": "Noviembre","TOTAL_VENTAS_EN_SOLES": 173609.92},
-        {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 187110.11},
+        {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_EN_SOLES": 187110.11},        
     ]
 
     # Convert data to JSON
@@ -177,7 +156,7 @@ def presentacion_graficos(request, year):
     # Aquí deberías tener lógica para obtener los datos del año específico
     # Por ejemplo:
     data = {
-        '2019': [  # Datos para 2019         
+           '2019': [  # Datos para 2019         
                   {"ANIO": 2019, "MESES": "Enero",   "TOTAL_VENTAS_EN_SOLES" : 208329.61},
                   {"ANIO": 2019, "MESES": "Febrero",  "TOTAL_VENTAS_EN_SOLES": 173151.12},
                   {"ANIO": 2019, "MESES": "Marzo",    "TOTAL_VENTAS_EN_SOLES": 277780.46},
@@ -236,3 +215,223 @@ def presentacion_graficos(request, year):
             }
     
     return JsonResponse(data.get(str(year), []), safe=False)
+
+
+
+  ##VENTAS EN SOLES PRODUCTIVIDAD -
+  
+  
+  
+  
+    
+  
+##Prediccion para PRODUCTIVIDAD
+  
+def getPredictions_produccion(anio, avena_por_mes):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, "modelo_productividad.sav")
+    scaler_path = os.path.join(base_dir, "scaler_productividad.sav")
+    
+    model = pickle.load(open(model_path, "rb"))
+    scaler = pickle.load(open(scaler_path, "rb"))
+    
+    predictions = []
+    
+    for mes, total_venta_en_soles in enumerate(avena_por_mes, start=1):
+        mes_sin = np.sin(2 * np.pi * mes / 12)
+        mes_cos = np.cos(2 * np.pi * mes / 12)
+        
+        input_data = pd.DataFrame([[anio, mes_sin, mes_cos, total_venta_en_soles]], 
+                                  columns=['ANIO', 'MES_SIN', 'MES_COS', 'TOTAL_VENTAS_EN_SOLES'])
+        input_data_scaled = scaler.transform(input_data)
+        prediction = model.predict(input_data_scaled)[0]
+        predictions.append(prediction)
+    
+    return predictions
+
+
+def prediccion_data_prod(request):
+    months = range(1, 13)
+    return render(request, 'prediccion_data_prod.html', {'months': months})
+
+def result_prod(request):
+    if request.method == 'POST':
+        anio = int(request.POST['anio'])
+        avena_por_mes = [int(request.POST[f'avena_mes_{i}']) for i in range(1, 13)]
+        
+        predictions = getPredictions_produccion(anio, avena_por_mes)
+        
+        result = {
+            'anio': anio,
+            'avena_por_mes': avena_por_mes,
+            'predictions': predictions,
+        }
+        
+        return JsonResponse(result)
+    else:
+        return render(request, 'prediccion_data_prod.html')
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+# Datos para 209,2020,2021,2022
+
+def presentacion_graficos_productividad(request, year):
+    # Aquí deberías tener lógica para obtener los datos del año específico
+    # Por ejemplo:
+    data = {
+           '2019': [  # Datos para 2019         
+                  {"ANIO": 2019, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 6851},
+                  {"ANIO": 2019, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 7830},
+                  {"ANIO": 2019, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 10391},
+                  {"ANIO": 2019, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 8944},
+                  {"ANIO": 2019, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 9147},
+                  {"ANIO": 2019, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 8827},
+                  {"ANIO": 2019, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 5333},
+                  {"ANIO": 2019, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 12540},
+                  {"ANIO": 2019, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 9976},
+                  {"ANIO": 2019, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 11249},
+                  {"ANIO": 2019, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 5179},
+                  {"ANIO": 2019, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 6146},     
+                ],  
+        '2020': [ # Datos para 2020
+                  {"ANIO": 2020, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 8031},
+                  {"ANIO": 2020, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 6548},
+                  {"ANIO": 2020, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 10193},
+                  {"ANIO": 2020, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 10981},
+                  {"ANIO": 2020, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 19125},
+                  {"ANIO": 2020, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 31149},
+                  {"ANIO": 2020, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 19777},
+                  {"ANIO": 2020, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 24904},
+                  {"ANIO": 2020, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 20170},
+                  {"ANIO": 2020, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 22371},
+                  {"ANIO": 2020, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 14748},
+                  {"ANIO": 2020, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 7728},                                                              
+                ],     
+        '2021': [ # Datos para 2021   
+                  {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 15037},
+                  {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14703},
+                  {"ANIO": 2021, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 17930},
+                  {"ANIO": 2021, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 16100},
+                  {"ANIO": 2021, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 20781},
+                  {"ANIO": 2021, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 18880},
+                  {"ANIO": 2021, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 25102},
+                  {"ANIO": 2021, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 15355},
+                  {"ANIO": 2021, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 17152},
+                  {"ANIO": 2021, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 10797},
+                  {"ANIO": 2021, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 17137},
+                  {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 15395},                               
+                ],     
+        '2022': [ # Datos para 2022   
+                  {"ANIO": 2022, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 13582},
+                  {"ANIO": 2022, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14507},
+                  {"ANIO": 2022, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 24101},
+                  {"ANIO": 2022, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 22584},
+                  {"ANIO": 2022, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 13921},
+                  {"ANIO": 2022, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 15337},
+                  {"ANIO": 2022, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 22908},
+                  {"ANIO": 2022, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 19603},
+                  {"ANIO": 2022, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 15573},
+                  {"ANIO": 2022, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 19863},
+                  {"ANIO": 2022, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 21991},
+                  {"ANIO": 2022, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 23326},           
+                ],    
+            }
+    
+    return JsonResponse(data.get(str(year), []), safe=False)
+  
+  
+def ventas_soles_2019(request):
+    data = [
+        {"ANIO": 2019, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 6851},
+        {"ANIO": 2019, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 7830},
+        {"ANIO": 2019, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 10391},
+        {"ANIO": 2019, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 8944},
+        {"ANIO": 2019, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 9147},
+        {"ANIO": 2019, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 8827},
+        {"ANIO": 2019, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 5333},
+        {"ANIO": 2019, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 12540},
+        {"ANIO": 2019, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 9976},
+        {"ANIO": 2019, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 11249},
+        {"ANIO": 2019, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 5179},
+        {"ANIO": 2019, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 6146},    
+    
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_soles_2019.html', {'json_data': json_data})
+
+def ventas_soles_2020(request):
+    data = [
+         {"ANIO": 2020, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 8031},
+         {"ANIO": 2020, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 6548},
+         {"ANIO": 2020, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 10193},
+         {"ANIO": 2020, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 10981},
+         {"ANIO": 2020, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 19125},
+         {"ANIO": 2020, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 31149},
+         {"ANIO": 2020, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 19777},
+         {"ANIO": 2020, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 24904},
+         {"ANIO": 2020, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 20170},
+         {"ANIO": 2020, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 22371},
+         {"ANIO": 2020, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 14748},
+         {"ANIO": 2020, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 7728},    
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_soles_2020.html', {'json_data': json_data})
+
+def ventas_soles_2021(request):
+    data = [
+         {"ANIO": 2021, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 15037},
+         {"ANIO": 2021, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14703},
+         {"ANIO": 2021, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 17930},
+         {"ANIO": 2021, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 16100},
+         {"ANIO": 2021, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 20781},
+         {"ANIO": 2021, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 18880},
+         {"ANIO": 2021, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 25102},
+         {"ANIO": 2021, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 15355},
+         {"ANIO": 2021, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 17152},
+         {"ANIO": 2021, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 10797},
+         {"ANIO": 2021, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 17137},
+         {"ANIO": 2021, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 15395},    
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_soles_2021.html', {'json_data': json_data})
+
+  
+def ventas_soles_2022(request):
+    data = [
+         {"ANIO": 2022, "MESES": "Enero",    "TOTAL_VENTAS_CANTIDAD": 13582},
+         {"ANIO": 2022, "MESES": "Febrero",  "TOTAL_VENTAS_CANTIDAD": 14507},
+         {"ANIO": 2022, "MESES": "Marzo",    "TOTAL_VENTAS_CANTIDAD": 24101},
+         {"ANIO": 2022, "MESES": "Abril",    "TOTAL_VENTAS_CANTIDAD": 22584},
+         {"ANIO": 2022, "MESES": "Mayo",     "TOTAL_VENTAS_CANTIDAD": 13921},
+         {"ANIO": 2022, "MESES": "Junio",    "TOTAL_VENTAS_CANTIDAD": 15337},
+         {"ANIO": 2022, "MESES": "Julio",    "TOTAL_VENTAS_CANTIDAD": 22908},
+         {"ANIO": 2022, "MESES": "Agosto",   "TOTAL_VENTAS_CANTIDAD": 19603},
+         {"ANIO": 2022, "MESES": "Setiembre","TOTAL_VENTAS_CANTIDAD": 15573},
+         {"ANIO": 2022, "MESES": "Octubre",  "TOTAL_VENTAS_CANTIDAD": 19863},
+         {"ANIO": 2022, "MESES": "Noviembre","TOTAL_VENTAS_CANTIDAD": 21991},
+         {"ANIO": 2022, "MESES": "Diciembre","TOTAL_VENTAS_CANTIDAD": 23326},    
+    ]
+
+    # Convert data to JSON
+    json_data = json.dumps(data)
+    
+    return render(request, 'ventas_soles_2022.html', {'json_data': json_data})
+ventas_soles_2022
+  
+  

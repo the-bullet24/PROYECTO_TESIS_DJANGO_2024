@@ -41,7 +41,7 @@ y_pred = regressor.predict(X_test_scaled)
 r2 = r2_score(y_test, y_pred)
 print(f"R-squared: {r2}")
 
-# Guardar el modelo y el escalador
+# Guardar el modelo y el escalador como archivos .sav
 pickle.dump(regressor, open("avena_sales_prediction_model.sav", "wb"))
 pickle.dump(scaler, open("avena_sales_scaler.sav", "wb"))
 
